@@ -77,6 +77,23 @@ after repeated failed attempts or when the user asks for maximum reasoning.
 Do not override the model for casual local work. Use this table when model
 routing is part of an explicit agentic workflow.
 
+## Exploration Flow
+
+Use this order when exploring code:
+
+1. GitNexus first for code graph questions, impact analysis, callers/callees,
+   and execution-flow discovery.
+2. context-mode for large searches, large files, logs, test output, and any
+   command output likely to exceed a short screenful.
+3. `finder` / `explorer` with `gpt-5.4-mini` medium for bounded source
+   exploration that remains after graph/context queries.
+4. `gpt-5.5` for planning, design, review, audit, and decisions after the code
+   map is condensed.
+
+Use RTK for short shell commands where token-filtered output helps and
+context-mode is not the better route. Do not use RTK as a substitute for
+context-mode on large outputs.
+
 ## Task Ledger
 
 When using the ledger, keep `.localdev/workflow/todo.md` short:

@@ -12,6 +12,24 @@ It provides:
 - lightweight hooks for task-state reminders
 - personal engineering rules suitable for a global Codex setup
 
+## Operational Tools
+
+This workflow is designed to work with these tools when they are available:
+
+- **GitNexus** for code graph questions, impact analysis, callers/callees, and
+  execution-flow discovery before editing.
+- **context-mode** for large file reads, broad searches, logs, test output, and
+  any command output that would otherwise flood the model context.
+- **RTK** for short shell commands where token-filtered output is useful and it
+  does not conflict with context-mode routing.
+
+Exploration order:
+
+1. Ask GitNexus for graph, flow, and impact context.
+2. Use context-mode for large searches, files, logs, and generated output.
+3. Use a bounded `finder`/`explorer` task for remaining code exploration.
+4. Reserve GPT-5.5 for planning, review, audit, and decisions.
+
 ## Model Policy
 
 When the user explicitly asks for subagents or parallel agent work, the plugin

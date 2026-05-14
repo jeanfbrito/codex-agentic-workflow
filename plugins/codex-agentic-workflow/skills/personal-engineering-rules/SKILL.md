@@ -64,3 +64,7 @@ that wording.
 ## Code Intelligence
 
 When graph-like code intelligence is available, use GitNexus.
+
+For large files, searches, logs, and test output, use context-mode so raw output
+does not flood the model context. Use RTK only for short shell commands where
+filtered output is useful.
