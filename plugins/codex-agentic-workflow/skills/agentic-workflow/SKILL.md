@@ -1,0 +1,93 @@
+---
+name: "agentic-workflow"
+description: "Use when the user asks for /agentic, agentic workflow, multi-session task coordination, explicit subagent delegation, or a structured task ledger workflow in Codex."
+---
+
+# Agentic Workflow
+
+Use this skill for non-trivial work that benefits from persistent task state,
+handoffs, blockers, and explicit delegation.
+
+## Codex Adaptation
+
+This is not Claude Code orchestrator mode. In Codex:
+
+- Do not spawn subagents unless the user explicitly asks for agents, subagents,
+  delegation, or parallel agent work.
+- Keep the main thread responsible for the critical path.
+- Use Codex plans and concise user updates for local work.
+- Use `.Codex/mytasks/` for multi-session working state.
+- Use `docs/KNOWN_ISSUES.md` for committed, durable project constraints.
+
+## Startup Checklist
+
+At task start, check these files when they exist:
+
+- `.Codex/mytasks/blockers.md`
+- `.Codex/mytasks/handoffs/*.md`
+- `.Codex/mytasks/findings.md`
+- `.Codex/mytasks/todo.md`
+- `docs/KNOWN_ISSUES.md`
+
+Do not dump file contents into chat. Summarize only relevant blockers,
+handoffs, known issues, and current Definition of Done.
+
+## Tier Semantics
+
+- `trivial`: one small change or answer. Work locally. No task ledger unless
+  the user asks.
+- `medium`: multi-step or 2+ files. Write/update `.Codex/mytasks/todo.md`
+  with a short Definition of Done. Delegate only if the user explicitly asked.
+- `full`: ambiguous architecture, multiple subsystems, risky refactor, or
+  multi-session task. Use todo, blockers, findings, handoffs, and known issues.
+  If the user requested agents, split work by disjoint ownership.
+
+## Role Mapping
+
+When delegation is explicitly allowed, map the original framework roles to
+Codex agent roles:
+
+- Planner -> `planner`
+- Finder -> `finder` or `explorer`
+- Researcher -> `researcher`
+- builder-fast -> `builder-fast` or `worker` for mechanical edits
+- builder-smart -> `builder-smart` or `worker` for complex implementation
+- Reviewer -> `reviewer`
+- Tester -> `tester`
+- Auditor -> `auditor` only after repeated failed attempts or root-cause stalls
+
+## Task Ledger
+
+When using the ledger, keep `.Codex/mytasks/todo.md` short:
+
+```markdown
+# Todo
+
+## Task
+<one paragraph>
+
+## Definition of Done
+- <observable outcome>
+- <verification command or evidence>
+
+## Steps
+- [ ] <step>
+```
+
+Update task status as work progresses. Do not let the ledger become a long log.
+
+## Blockers
+
+If a decision cannot be resolved from code, docs, tests, or git history, use the
+`blocker` skill. Append the blocker, stop the current task, and ask the user.
+
+## Handoffs
+
+For work that cannot finish in the current session, use the `handoff` skill.
+Capture state, files touched, verification, unresolved risks, and next steps.
+
+## Known Issues
+
+When a platform or dependency constraint will affect future work, use the
+`known-issue` skill. Known issues belong in `docs/KNOWN_ISSUES.md` and are
+intended to be committed.

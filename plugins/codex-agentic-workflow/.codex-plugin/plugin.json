@@ -1,0 +1,40 @@
+{
+  "name": "codex-agentic-workflow",
+  "version": "0.1.0",
+  "description": "Codex-native agentic workflow skills for task ledgers, blockers, handoffs, known issues, and engineering rules.",
+  "author": {
+    "name": "Jean Brito",
+    "url": "https://github.com/jeanfbrito"
+  },
+  "homepage": "https://github.com/jeanfbrito/codex-agentic-workflow#readme",
+  "repository": "https://github.com/jeanfbrito/codex-agentic-workflow",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "agentic-workflow",
+    "skills",
+    "hooks",
+    "handoff",
+    "blockers"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks.json",
+  "interface": {
+    "displayName": "Codex Agentic Workflow",
+    "shortDescription": "Task ledger, blocker, handoff, and known-issue workflow for Codex.",
+    "longDescription": "A Codex-native adaptation of the Agentic Workflow Framework. It provides skills and lightweight hooks for multi-session project work without installing Claude-specific agents or commands.",
+    "developerName": "Jean Brito",
+    "category": "Productivity",
+    "capabilities": [
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/jeanfbrito/codex-agentic-workflow",
+    "defaultPrompt": [
+      "Initialize agentic workflow files for this project.",
+      "Create a blocker for the current decision point.",
+      "Write a handoff for this task."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
