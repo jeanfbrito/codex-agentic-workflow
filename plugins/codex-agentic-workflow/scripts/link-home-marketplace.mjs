@@ -36,7 +36,7 @@ try {
 
   const entry = {
     name: 'codex-agentic-workflow',
-    source: { source: 'local', path: './plugins/codex-agentic-workflow' },
+    source: { source: 'local', path: sourcePlugin },
     policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' },
     category: 'Productivity',
   };

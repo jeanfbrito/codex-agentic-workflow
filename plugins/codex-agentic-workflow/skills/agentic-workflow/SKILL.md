@@ -1,12 +1,15 @@
 ---
 name: "agentic-workflow"
-description: "Use when the user asks for /agentic, agentic workflow, multi-session task coordination, explicit subagent delegation, or a structured task ledger workflow in Codex."
+description: "Use automatically for non-trivial Codex engineering work: multi-step tasks, changes across multiple files, risky refactors, debugging with unknown root cause, multi-session work, structured task ledgers, blockers, handoffs, known issues, verification planning, or explicit agent/subagent/parallel delegation requests."
 ---
 
 # Agentic Workflow
 
 Use this skill for non-trivial work that benefits from persistent task state,
 handoffs, blockers, and explicit delegation.
+
+The user does not need to name this skill. If the task is medium or full under
+the tier rules below, use this workflow automatically.
 
 ## Codex Adaptation
 
@@ -31,6 +34,10 @@ At task start, check these files when they exist:
 
 Do not dump file contents into chat. Summarize only relevant blockers,
 handoffs, known issues, and current Definition of Done.
+
+If these files are missing and the user is asking for structured workflow,
+multi-session coordination, handoffs, blockers, or durable known issues, use
+`init-agentic` first to scaffold them.
 
 ## Tier Semantics
 

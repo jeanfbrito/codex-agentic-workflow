@@ -1,11 +1,15 @@
 ---
 name: "init-agentic"
-description: "Scaffold Codex agentic workflow files in the current project: .localdev/workflow/ plus docs/KNOWN_ISSUES.md, without overwriting existing content."
+description: "Use automatically when a project needs Codex agentic workflow setup, persistent task ledger files, .localdev/workflow/, docs/KNOWN_ISSUES.md, handoff/blocker scaffolding, or when agentic-workflow is requested but the workflow files are missing. Scaffold files without overwriting existing content."
 ---
 
 # Init Agentic
 
 Set up Codex agentic workflow scaffolding in the current working directory.
+
+Trigger this skill without waiting for the user to name it when the user asks to
+prepare, initialize, install, enable, or start a structured/agentic workflow in a
+project and the workflow files are missing.
 
 ## Steps
 
