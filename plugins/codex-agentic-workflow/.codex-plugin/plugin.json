@@ -13,16 +13,14 @@
     "codex",
     "agentic-workflow",
     "skills",
-    "hooks",
     "handoff",
     "blockers"
   ],
   "skills": "./skills/",
-  "hooks": "./hooks.json",
   "interface": {
     "displayName": "Codex Agentic Workflow",
     "shortDescription": "Task ledger, blocker, handoff, and known-issue workflow for Codex.",
-    "longDescription": "A Codex-native adaptation of the Agentic Workflow Framework. It provides skills and lightweight hooks for multi-session project work without installing Claude-specific agents or commands.",
+    "longDescription": "Codex workflow skills for multi-session project work, local task ledgers, decision blockers, handoffs, known issues, and optional Codex hooks.",
     "developerName": "Jean Brito",
     "category": "Productivity",
     "capabilities": [

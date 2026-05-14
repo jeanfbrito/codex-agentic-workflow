@@ -4,7 +4,7 @@ Codex plugin for structured multi-session engineering work.
 
 It provides:
 
-- project task ledger under `.Codex/mytasks/`
+- project task ledger under `.localdev/workflow/`
 - committed known issues under `docs/KNOWN_ISSUES.md`
 - decision blockers and handoffs
 - agent role guidance mapped to Codex agent roles
@@ -33,7 +33,6 @@ maps workflow roles to Codex models:
 .agents/plugins/marketplace.json
 plugins/codex-agentic-workflow/
   .codex-plugin/plugin.json
-  hooks.json
   scripts/
   skills/
     agentic-workflow/
@@ -58,6 +57,15 @@ node plugins/codex-agentic-workflow/scripts/link-home-marketplace.mjs
 That script creates a symlink at `~/plugins/codex-agentic-workflow` and adds a
 matching entry to `~/.agents/plugins/marketplace.json`.
 
+Optional hooks can be installed into `~/.codex/hooks.json`:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/install-codex-hooks.mjs
+```
+
+The hook installer uses absolute paths to this checkout and preserves existing
+Codex hooks.
+
 ## Validate
 
 ```bash
@@ -69,11 +77,11 @@ node plugins/codex-agentic-workflow/scripts/validate.mjs
 After installing the plugin, ask Codex to run the `init-agentic` skill in a
 project. It scaffolds:
 
-- `.Codex/mytasks/todo.md`
-- `.Codex/mytasks/blockers.md`
-- `.Codex/mytasks/findings.md`
-- `.Codex/mytasks/handoffs/`
+- `.localdev/workflow/todo.md`
+- `.localdev/workflow/blockers.md`
+- `.localdev/workflow/findings.md`
+- `.localdev/workflow/handoffs/`
 - `docs/KNOWN_ISSUES.md`
 
-The `.Codex/` directory is local working state and should be gitignored.
+The `.localdev/` directory is local working state and should be gitignored.
 `docs/KNOWN_ISSUES.md` is project knowledge and should be committed.

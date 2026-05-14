@@ -25,11 +25,7 @@ check('marketplace has plugin entry', !!marketplace?.plugins?.some((p) => p.name
 const manifest = json(path.join(plugin, '.codex-plugin', 'plugin.json'));
 check('manifest name', manifest?.name === 'codex-agentic-workflow');
 check('manifest skills path', manifest?.skills === './skills/');
-check('manifest hooks path', manifest?.hooks === './hooks.json');
-
-const hooks = json(path.join(plugin, 'hooks.json'));
-check('hooks SessionStart', !!hooks?.hooks?.SessionStart);
-check('hooks UserPromptSubmit', !!hooks?.hooks?.UserPromptSubmit);
+check('manifest has no hooks placeholder', !('hooks' in (manifest || {})));
 
 for (const skill of ['agentic-workflow', 'init-agentic', 'blocker', 'handoff', 'known-issue', 'personal-engineering-rules']) {
   const file = path.join(plugin, 'skills', skill, 'SKILL.md');
@@ -40,7 +36,7 @@ for (const skill of ['agentic-workflow', 'init-agentic', 'blocker', 'handoff', '
   }
 }
 
-for (const script of ['session-start.mjs', 'user-prompt-submit.mjs', 'validate.mjs', 'link-home-marketplace.mjs']) {
+for (const script of ['session-start.mjs', 'user-prompt-submit.mjs', 'install-codex-hooks.mjs', 'validate.mjs', 'link-home-marketplace.mjs']) {
   check(`script exists: ${script}`, fs.existsSync(path.join(plugin, 'scripts', script)));
 }
 

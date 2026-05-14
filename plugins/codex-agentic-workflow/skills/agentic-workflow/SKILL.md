@@ -16,17 +16,17 @@ Use these Codex workflow rules:
   delegation, or parallel agent work.
 - Keep the main thread responsible for the critical path.
 - Use Codex plans and concise user updates for local work.
-- Use `.Codex/mytasks/` for multi-session working state.
+- Use `.localdev/workflow/` for multi-session working state.
 - Use `docs/KNOWN_ISSUES.md` for committed, durable project constraints.
 
 ## Startup Checklist
 
 At task start, check these files when they exist:
 
-- `.Codex/mytasks/blockers.md`
-- `.Codex/mytasks/handoffs/*.md`
-- `.Codex/mytasks/findings.md`
-- `.Codex/mytasks/todo.md`
+- `.localdev/workflow/blockers.md`
+- `.localdev/workflow/handoffs/*.md`
+- `.localdev/workflow/findings.md`
+- `.localdev/workflow/todo.md`
 - `docs/KNOWN_ISSUES.md`
 
 Do not dump file contents into chat. Summarize only relevant blockers,
@@ -36,7 +36,7 @@ handoffs, known issues, and current Definition of Done.
 
 - `trivial`: one small change or answer. Work locally. No task ledger unless
   the user asks.
-- `medium`: multi-step or 2+ files. Write/update `.Codex/mytasks/todo.md`
+- `medium`: multi-step or 2+ files. Write/update `.localdev/workflow/todo.md`
   with a short Definition of Done. Delegate only if the user explicitly asked.
 - `full`: ambiguous architecture, multiple subsystems, risky refactor, or
   multi-session task. Use todo, blockers, findings, handoffs, and known issues.
@@ -79,7 +79,7 @@ routing is part of an explicit agentic workflow.
 
 ## Task Ledger
 
-When using the ledger, keep `.Codex/mytasks/todo.md` short:
+When using the ledger, keep `.localdev/workflow/todo.md` short:
 
 ```markdown
 # Todo

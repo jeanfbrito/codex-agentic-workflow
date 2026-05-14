@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const cwd = process.cwd();
-const root = path.join(cwd, '.Codex', 'mytasks');
+const root = path.join(cwd, '.localdev', 'workflow');
 if (!fs.existsSync(root)) process.exit(0);
 
 const out = [];
@@ -11,7 +11,7 @@ const blockers = path.join(root, 'blockers.md');
 if (fs.existsSync(blockers)) {
   const text = fs.readFileSync(blockers, 'utf8');
   if (/^## \d{4}-\d{2}-\d{2}/m.test(text)) {
-    out.push('agentic: active blockers in .Codex/mytasks/blockers.md');
+    out.push('agentic: active blockers in .localdev/workflow/blockers.md');
   }
 }
 
@@ -22,7 +22,7 @@ if (fs.existsSync(handoffs)) {
     .sort()
     .slice(0, 5);
   for (const file of files) {
-    out.push(`agentic: open handoff .Codex/mytasks/handoffs/${file}`);
+    out.push(`agentic: open handoff .localdev/workflow/handoffs/${file}`);
   }
 }
 

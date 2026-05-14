@@ -1,10 +1,9 @@
 # Codex Agentic Workflow Plugin
 
-This plugin converts the useful parts of the Agentic Workflow Framework to
-Codex:
+This plugin provides:
 
 - skills for task coordination, blockers, handoffs, and known issues
-- `.Codex/mytasks/` project working state
+- `.localdev/workflow/` project working state
 - Codex agent role mapping
 - model routing for explicit agent workflows
 - optional hooks that surface blockers and handoffs

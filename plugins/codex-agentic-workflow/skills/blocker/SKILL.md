@@ -1,6 +1,6 @@
 ---
 name: "blocker"
-description: "Append a decision blocker to .Codex/mytasks/blockers.md and stop the current task until the user resolves it."
+description: "Append a decision blocker to .localdev/workflow/blockers.md and stop the current task until the user resolves it."
 ---
 
 # Blocker
@@ -22,7 +22,7 @@ Every entry must start with this H2 shape:
 
 ## Steps
 
-1. Ensure `.Codex/mytasks/blockers.md` exists.
+1. Ensure `.localdev/workflow/blockers.md` exists.
 2. Append a complete entry using the canonical format.
 3. Stop the current task.
 4. Present the blocker to the user and ask for the decision.

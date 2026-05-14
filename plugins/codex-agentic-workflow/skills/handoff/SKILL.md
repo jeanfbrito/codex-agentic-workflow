@@ -1,6 +1,6 @@
 ---
 name: "handoff"
-description: "Write a cross-session handoff under .Codex/mytasks/handoffs/ for unfinished or multi-session work."
+description: "Write a cross-session handoff under .localdev/workflow/handoffs/ for unfinished or multi-session work."
 ---
 
 # Handoff
@@ -13,7 +13,7 @@ compact state snapshot.
 Write to:
 
 ```
-.Codex/mytasks/handoffs/<yyyy-mm-dd>-<slug>.md
+.localdev/workflow/handoffs/<yyyy-mm-dd>-<slug>.md
 ```
 
 ## Template
