@@ -1,25 +1,31 @@
 # Codex Agentic Workflow
 
-Codex-native adaptation of Jean Brito's Agentic Workflow Framework gist.
+Codex plugin for structured multi-session engineering work.
 
-This repo is intentionally not a byte-for-byte Claude Code port. It keeps the
-parts that work in Codex:
+It provides:
 
 - project task ledger under `.Codex/mytasks/`
 - committed known issues under `docs/KNOWN_ISSUES.md`
 - decision blockers and handoffs
 - agent role guidance mapped to Codex agent roles
+- model routing for explicit agent workflows
 - lightweight hooks for task-state reminders
 - personal engineering rules suitable for a global Codex setup
 
-It does not install Claude-specific files:
+## Model Policy
 
-- no `~/.claude/AGENTIC.md`
-- no Claude slash commands
-- no Claude agent definitions
-- no Claude-only orchestrator hook
+When the user explicitly asks for subagents or parallel agent work, the plugin
+maps workflow roles to Codex models:
 
-For graph-style code intelligence, use GitNexus separately when it is available.
+| Workflow role | Model |
+| --- | --- |
+| Explore | GPT-5.4 Mini, medium reasoning |
+| Context Builder | GPT-5.3 Codex, medium reasoning |
+| Engineer | GPT-5.3 Codex, medium reasoning |
+| Pair / Review | GPT-5.5, high reasoning |
+| Design / Planner | GPT-5.5, medium reasoning |
+| Audit | GPT-5.5, high reasoning |
+| Test | GPT-5.4 Mini, medium reasoning |
 
 ## Layout
 

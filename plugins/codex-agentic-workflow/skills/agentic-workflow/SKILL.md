@@ -10,7 +10,7 @@ handoffs, blockers, and explicit delegation.
 
 ## Codex Adaptation
 
-This is not Claude Code orchestrator mode. In Codex:
+Use these Codex workflow rules:
 
 - Do not spawn subagents unless the user explicitly asks for agents, subagents,
   delegation, or parallel agent work.
@@ -44,8 +44,7 @@ handoffs, known issues, and current Definition of Done.
 
 ## Role Mapping
 
-When delegation is explicitly allowed, map the original framework roles to
-Codex agent roles:
+When delegation is explicitly allowed, map workflow roles to Codex agent roles:
 
 - Planner -> `planner`
 - Finder -> `finder` or `explorer`
@@ -55,6 +54,28 @@ Codex agent roles:
 - Reviewer -> `reviewer`
 - Tester -> `tester`
 - Auditor -> `auditor` only after repeated failed attempts or root-cause stalls
+
+## Model Policy
+
+When the user explicitly asks for subagents, delegation, or parallel agent work,
+route models by role:
+
+| Workflow role | Codex role | Model | Reasoning |
+| --- | --- | --- | --- |
+| Explore | `finder` / `explorer` | `gpt-5.4-mini` | `medium` |
+| Context Builder | `researcher` / `finder` | `gpt-5.3-codex` | `medium` |
+| Engineer | `builder-fast` / `builder-smart` / `worker` | `gpt-5.3-codex` | `medium` |
+| Pair | `reviewer` / paired implementation review | `gpt-5.5` | `high` |
+| Design | `planner` | `gpt-5.5` | `medium` |
+| Audit | `auditor` | `gpt-5.5` | `high` |
+| Test | `tester` | `gpt-5.4-mini` | `medium` |
+
+Escalate planning/review to `gpt-5.5` with `high` reasoning for ambiguous
+architecture, risky changes, or cross-subsystem decisions. Use `xhigh` only
+after repeated failed attempts or when the user asks for maximum reasoning.
+
+Do not override the model for casual local work. Use this table when model
+routing is part of an explicit agentic workflow.
 
 ## Task Ledger
 
