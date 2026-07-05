@@ -7,6 +7,40 @@ const root = path.join(cwd, '.localdev', 'workflow');
 if (!fs.existsSync(root)) process.exit(0);
 
 const out = [];
+function compact(value, max = 140) {
+  const singleLine = value.replace(/\s+/g, ' ').trim();
+  return singleLine.length > max ? `${singleLine.slice(0, max - 3)}...` : singleLine;
+}
+
+function field(card, name) {
+  const match = card.match(new RegExp(`^- ${name}:\\s*(.+)$`, 'im'));
+  return match ? compact(match[1]) : null;
+}
+
+function activeTodoCards(text) {
+  const cards = [];
+  const lines = text.split(/\r?\n/);
+  let current = null;
+
+  for (const line of lines) {
+    const header = line.match(/^## \[(doing|blocked)\] (.+)$/);
+    if (header) {
+      current = { status: header[1], title: header[2], body: [] };
+      cards.push(current);
+      continue;
+    }
+
+    if (/^## /.test(line)) {
+      current = null;
+      continue;
+    }
+
+    if (current) current.body.push(line);
+  }
+
+  return cards;
+}
+
 const blockers = path.join(root, 'blockers.md');
 if (fs.existsSync(blockers)) {
   const text = fs.readFileSync(blockers, 'utf8');
@@ -18,8 +52,18 @@ if (fs.existsSync(blockers)) {
 const todo = path.join(root, 'todo.md');
 if (fs.existsSync(todo)) {
   const text = fs.readFileSync(todo, 'utf8');
-  const active = [...text.matchAll(/^## \[(doing|blocked)\] (.+)$/gm)]
-    .map((match) => `[${match[1]}] ${match[2].trim()}`)
+  const active = activeTodoCards(text)
+    .map((card) => {
+      const title = compact(card.title);
+      const body = card.body.join('\n');
+      const attempts = field(body, 'Attempts');
+      const dod = field(body, 'DoD');
+      const detail = [
+        attempts ? `Attempts: ${attempts}` : null,
+        dod ? `DoD: ${dod}` : null,
+      ].filter(Boolean).join('; ');
+      return detail ? `[${card.status}] ${title} (${detail})` : `[${card.status}] ${title}`;
+    })
     .slice(0, 5);
   for (const card of active) {
     out.push(`agentic: active todo ${card}`);

@@ -7,8 +7,8 @@ It provides:
 - project task board and done log under `.localdev/workflow/`
 - committed known issues under `docs/KNOWN_ISSUES.md`
 - decision blockers, handoffs, and parseable completion records
-- agent role guidance mapped to Codex agent roles
-- model routing for explicit agent workflows
+- agent role guidance mapped to Codex/GPT capability tiers
+- model-tier routing guidance for explicit agent workflows
 - lightweight hooks for task-state reminders
 - personal engineering rules suitable for a global Codex setup
 
@@ -32,7 +32,8 @@ Exploration order:
 3. Use context7 for library, API, SDK, CLI, and cloud-service facts.
 4. Use a bounded `finder`/`explorer` task only when the user explicitly allowed
    delegation and remaining exploration is still needed.
-5. Reserve GPT-5.5 for planning, review, audit, and decisions.
+5. Reserve reasoning/audit-tier models for planning, review, audit, and
+   decisions.
 
 If one of these tools is expected but fails, report the exact tool and error
 instead of silently falling back to raw search or memory.
@@ -40,17 +41,19 @@ instead of silently falling back to raw search or memory.
 ## Model Policy
 
 When the user explicitly asks for subagents or parallel agent work, the plugin
-maps workflow roles to Codex models:
+maps workflow roles to capability tiers instead of hard-coded GPT model names.
+Choose the currently available Codex/GPT model that best matches the tier and
+required reasoning effort.
 
-| Workflow role | Model |
-| --- | --- |
-| Explore | GPT-5.4 Mini, medium reasoning |
-| Context Builder | GPT-5.3 Codex, medium reasoning |
-| Engineer | GPT-5.3 Codex, medium reasoning |
-| Pair / Review | GPT-5.5, high reasoning |
-| Design / Planner | GPT-5.5, medium reasoning |
-| Audit | GPT-5.5, high reasoning |
-| Test | GPT-5.4 Mini, medium reasoning |
+| Workflow role | Capability tier | Use |
+| --- | --- | --- |
+| Explore / Finder | `fast` | Narrow searches, file location, simple summaries. |
+| Context Builder / Researcher | `fast` or `reasoning` | Source context or current external behavior. |
+| Engineer | `coding` | Scoped implementation and refactors. |
+| Pair / Review | `reasoning` | Pre-merge review and tradeoff checks. |
+| Design / Planner | `reasoning` | Plans, architecture, and ambiguous decisions. |
+| Audit | `audit` | Deep diagnosis after failed attempts or high-risk changes. |
+| Test | `fast` | DoD verification and concise output summaries. |
 
 ## Layout
 
@@ -59,6 +62,7 @@ maps workflow roles to Codex models:
 plugins/codex-agentic-workflow/
   .codex-plugin/plugin.json
   scripts/
+  templates/
   skills/
     agentic-workflow/
     init-agentic/
@@ -91,6 +95,16 @@ content:
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
 - `docs/KNOWN_ISSUES.md`
+- a marked `codex-agentic-workflow` section in `AGENTS.md`
+
+The deterministic initializer is:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/init-project.mjs
+```
+
+Use `--no-agents` if the target project should not receive an `AGENTS.md`
+section.
 
 `agentic-workflow` is execution. It tells Codex how to classify task size,
 maintain open cards in `.localdev/workflow/todo.md`, append completions to
@@ -178,6 +192,7 @@ ask Codex to run `codex-agentic-workflow:init-agentic`. It scaffolds:
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
 - `docs/KNOWN_ISSUES.md`
+- `AGENTS.md` with a marked `codex-agentic-workflow` section
 
 The `.localdev/` directory is local working state and should be gitignored.
 `docs/KNOWN_ISSUES.md` is project knowledge and should be committed.
@@ -192,7 +207,8 @@ Typical project flow:
 1. Install the plugin from this repository.
 2. Open a new Codex conversation so the marketplace and skills are discovered.
 3. In the target project, ask Codex to prepare the project for the agentic
-   workflow. It should choose `init-agentic`.
+   workflow. It should choose `init-agentic`, which runs
+   `scripts/init-project.mjs`.
 4. Commit `docs/KNOWN_ISSUES.md` if it contains useful project knowledge.
 5. Add `.localdev/` to `.gitignore` unless the project already ignores it.
 6. For real work, describe the task normally. Codex should choose

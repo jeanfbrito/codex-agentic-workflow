@@ -1,6 +1,6 @@
 {
   "name": "codex-agentic-workflow",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Codex-native agentic workflow skills for task boards, done logs, blockers, handoffs, known issues, and engineering rules.",
   "author": {
     "name": "Jean Brito",
@@ -29,7 +29,7 @@
     ],
     "websiteURL": "https://github.com/jeanfbrito/codex-agentic-workflow",
     "defaultPrompt": [
-      "Initialize agentic workflow files for this project.",
+      "Initialize agentic workflow files and AGENTS.md guidance for this project.",
       "Create a blocker for the current decision point.",
       "Write a handoff for this task."
     ],

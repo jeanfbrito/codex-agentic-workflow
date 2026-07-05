@@ -69,21 +69,40 @@ the evidence, identify the actual constraint, and re-plan. If the user allowed
 delegation, dispatch an auditor/reviewer-style agent to diagnose the root
 constraint before continuing.
 
+## Model Capability Tiers
+
+Do not hard-code specific GPT model names in workflow decisions. Codex model
+availability changes over time and differs by install.
+
+Use capability tiers instead:
+
+| Tier | Use for |
+| --- | --- |
+| `fast` | Narrow searches, hook checks, simple test summaries, and mechanical edits. |
+| `coding` | Scoped implementation, refactors, and source-level debugging. |
+| `reasoning` | Planning, design choices, risk review, and ambiguous tradeoffs. |
+| `audit` | Deep diagnosis after repeated failed attempts or high-risk review. |
+
+When a concrete model must be selected, choose the currently available Codex or
+GPT model that best matches the tier and required reasoning effort.
+
 ## Delegation
 
-When delegation is explicitly allowed, map workflow roles to Codex agent roles:
+When delegation is explicitly allowed, map workflow roles to the closest
+available Codex multi-agent tool or role. Role names can vary across installs,
+so preserve the intent even when the exact label is unavailable.
 
-| Workflow role | Codex role | Default use |
+| Workflow role | Capability tier | Default use |
 | --- | --- | --- |
-| Planner | `planner` | Brief non-trivial or ambiguous work. |
-| Finder | `finder` / `explorer` | Locate files, call chains, and ownership. |
-| Researcher | `researcher` | Confirm library, API, CLI, or external behavior. |
-| Builder fast | `builder-fast` / `worker` | Scoped implementation. |
-| Builder trivial | `builder-trivial` / `worker` | Mechanical bulk edits. |
-| Builder smart | `builder-smart` / `worker` | Only after a failed cheaper attempt or for strategy-grade implementation. |
-| Reviewer | `reviewer` | Pre-screen implementation before final answer. |
-| Tester | `tester` | Run DoD checks and summarize results. |
-| Auditor | `auditor` | Diagnose after repeated failed attempts or root-cause stalls. |
+| Planner | `reasoning` | Brief non-trivial or ambiguous work. |
+| Finder | `fast` | Locate files, call chains, and ownership. |
+| Researcher | `fast` / `reasoning` | Confirm library, API, CLI, or external behavior. |
+| Builder fast | `coding` | Scoped implementation. |
+| Builder trivial | `fast` | Mechanical bulk edits. |
+| Builder smart | `reasoning` / `coding` | Only after a failed cheaper attempt or for strategy-grade implementation. |
+| Reviewer | `reasoning` | Pre-screen implementation before final answer. |
+| Tester | `fast` | Run DoD checks and summarize results. |
+| Auditor | `audit` | Diagnose after repeated failed attempts or root-cause stalls. |
 
 Use the session model for normal main-thread work. Only route models explicitly
 when an agentic workflow with delegation is part of the user request.

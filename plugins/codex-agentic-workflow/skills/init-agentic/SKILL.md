@@ -13,19 +13,36 @@ project and the workflow files are missing.
 
 ## Steps
 
-1. Check current state first. Do not overwrite non-empty files.
-2. Create directories:
+Prefer the deterministic initializer script from this plugin:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/init-project.mjs
+```
+
+Use `--no-agents` only when the target project should not receive an AGENTS.md
+section:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/init-project.mjs --no-agents
+```
+
+The script:
+
+1. Checks current state first and preserves existing non-empty files.
+2. Creates directories:
    - `.localdev/workflow/handoffs/`
    - `docs/`
-3. Create missing files:
+3. Creates missing files:
    - `.localdev/workflow/todo.md`
    - `.localdev/workflow/done.md`
    - `.localdev/workflow/blockers.md`
    - `.localdev/workflow/findings.md`
    - `docs/KNOWN_ISSUES.md`
-4. If inside a git repo, ensure `.localdev/` is ignored in `.gitignore`.
-5. Confirm `docs/KNOWN_ISSUES.md` is not ignored.
-6. Report created paths, skipped paths, and gitignore status.
+4. Ensures `.localdev/` is ignored in `.gitignore`.
+5. Adds or refreshes a marked `codex-agentic-workflow` section in `AGENTS.md`.
+6. Warns if `docs/KNOWN_ISSUES.md` appears to be ignored.
+
+If the script is unavailable, perform the same steps manually.
 
 ## Starter Templates
 

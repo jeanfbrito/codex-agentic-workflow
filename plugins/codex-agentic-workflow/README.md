@@ -4,8 +4,8 @@ This plugin provides:
 
 - skills for task coordination, blockers, handoffs, and known issues
 - `.localdev/workflow/` project task boards and done logs
-- Codex agent role mapping
-- model routing for explicit agent workflows
+- Codex/GPT capability-tier role mapping
+- model-tier routing guidance for explicit agent workflows
 - optional hooks that surface blockers, handoffs, and active todo cards
 
 The plugin does not force subagent delegation. Codex policy requires explicit
@@ -43,6 +43,16 @@ workflow files are missing. It bootstraps:
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
 - `docs/KNOWN_ISSUES.md`
+- `AGENTS.md` with a marked `codex-agentic-workflow` section
+
+The deterministic initializer is:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/init-project.mjs
+```
+
+Use `--no-agents` if the target project should not receive an `AGENTS.md`
+section.
 
 For ongoing work, describe the task normally. The main chat should choose
 `codex-agentic-workflow:agentic-workflow` automatically for non-trivial
