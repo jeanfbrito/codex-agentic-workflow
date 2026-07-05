@@ -15,6 +15,17 @@ if (fs.existsSync(blockers)) {
   }
 }
 
+const todo = path.join(root, 'todo.md');
+if (fs.existsSync(todo)) {
+  const text = fs.readFileSync(todo, 'utf8');
+  const active = [...text.matchAll(/^## \[(doing|blocked)\] (.+)$/gm)]
+    .map((match) => `[${match[1]}] ${match[2].trim()}`)
+    .slice(0, 5);
+  for (const card of active) {
+    out.push(`agentic: active todo ${card}`);
+  }
+}
+
 const handoffs = path.join(root, 'handoffs');
 if (fs.existsSync(handoffs)) {
   const files = fs.readdirSync(handoffs)

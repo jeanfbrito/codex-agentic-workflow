@@ -13,7 +13,7 @@ compact state snapshot.
 Write to:
 
 ```
-.localdev/workflow/handoffs/<yyyy-mm-dd>-<slug>.md
+.localdev/workflow/handoffs/<task-name>.md
 ```
 
 ## Template
@@ -22,28 +22,20 @@ Write to:
 # <task name>
 
 ## Status
-<current state: not started | in progress | blocked | ready for verification>
+<what was done and current state>
 
-## Goal
-<what the task is trying to achieve>
+## Next
+- [ ] <next step>
+- [ ] <next step>
 
-## Completed
-- <concrete completed item>
+## Open questions
+<list or "None">
 
-## Current State
-<what is true right now>
-
-## Files Touched
+## Files touched
 - <path>: <why it matters>
-
-## Verification
-- <command or evidence>: <result>
-
-## Open Questions
-- <question or none>
-
-## Next Steps
-- [ ] <next action>
 ```
 
 Keep the handoff compact. Do not paste raw logs or long diffs.
+
+When the task completes, absorb the durable summary, decisions, links, and key
+files into `.localdev/workflow/done.md`, then delete the handoff file.

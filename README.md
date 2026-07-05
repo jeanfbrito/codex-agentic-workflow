@@ -4,9 +4,9 @@ Codex plugin for structured multi-session engineering work.
 
 It provides:
 
-- project task ledger under `.localdev/workflow/`
+- project task board and done log under `.localdev/workflow/`
 - committed known issues under `docs/KNOWN_ISSUES.md`
-- decision blockers and handoffs
+- decision blockers, handoffs, and parseable completion records
 - agent role guidance mapped to Codex agent roles
 - model routing for explicit agent workflows
 - lightweight hooks for task-state reminders
@@ -20,6 +20,8 @@ This workflow is designed to work with these tools when they are available:
   execution-flow discovery before editing.
 - **context-mode** for large file reads, broad searches, logs, test output, and
   any command output that would otherwise flood the model context.
+- **context7** for current library, API, SDK, CLI, and cloud-service behavior
+  before asserting details or writing briefs.
 - **RTK** for short shell commands where token-filtered output is useful and it
   does not conflict with context-mode routing.
 
@@ -27,8 +29,13 @@ Exploration order:
 
 1. Ask GitNexus for graph, flow, and impact context.
 2. Use context-mode for large searches, files, logs, and generated output.
-3. Use a bounded `finder`/`explorer` task for remaining code exploration.
-4. Reserve GPT-5.5 for planning, review, audit, and decisions.
+3. Use context7 for library, API, SDK, CLI, and cloud-service facts.
+4. Use a bounded `finder`/`explorer` task only when the user explicitly allowed
+   delegation and remaining exploration is still needed.
+5. Reserve GPT-5.5 for planning, review, audit, and decisions.
+
+If one of these tools is expected but fails, report the exact tool and error
+instead of silently falling back to raw search or memory.
 
 ## Model Policy
 
@@ -68,7 +75,7 @@ include these entries:
 
 | Skill | Purpose | When to use |
 | --- | --- | --- |
-| `codex-agentic-workflow:init-agentic` | Bootstrap a project for the workflow. | Run once per project before using the task ledger. |
+| `codex-agentic-workflow:init-agentic` | Bootstrap a project for the workflow. | Run once per project before using the task board. |
 | `codex-agentic-workflow:agentic-workflow` | Run a structured engineering workflow. | Use for multi-step, risky, or multi-session tasks. |
 | `codex-agentic-workflow:blocker` | Record a decision blocker and stop. | Use when progress depends on a user/product/architecture decision. |
 | `codex-agentic-workflow:handoff` | Write a cross-session handoff. | Use before stopping unfinished work or passing context to another session. |
@@ -79,14 +86,16 @@ include these entries:
 content:
 
 - `.localdev/workflow/todo.md`
+- `.localdev/workflow/done.md`
 - `.localdev/workflow/blockers.md`
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
 - `docs/KNOWN_ISSUES.md`
 
 `agentic-workflow` is execution. It tells Codex how to classify task size,
-maintain `.localdev/workflow/todo.md`, record blockers and handoffs, consult
-known issues, verify work, and map workflow roles to Codex agents when the user
+maintain open cards in `.localdev/workflow/todo.md`, append completions to
+`.localdev/workflow/done.md`, record blockers and handoffs, consult known
+issues, verify work, and map workflow roles to Codex agents when the user
 explicitly asks for subagents or parallel agent work.
 
 The main chat should use these skills by itself. You do not need to mention the
@@ -164,6 +173,7 @@ After installing the plugin, start a new Codex conversation in a project and
 ask Codex to run `codex-agentic-workflow:init-agentic`. It scaffolds:
 
 - `.localdev/workflow/todo.md`
+- `.localdev/workflow/done.md`
 - `.localdev/workflow/blockers.md`
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
@@ -171,6 +181,7 @@ ask Codex to run `codex-agentic-workflow:init-agentic`. It scaffolds:
 
 The `.localdev/` directory is local working state and should be gitignored.
 `docs/KNOWN_ISSUES.md` is project knowledge and should be committed.
+`todo.md` holds only open cards; completed cards move to `done.md`.
 
 For ongoing work, ask Codex to use `codex-agentic-workflow:agentic-workflow`.
 That skill keeps blockers, handoffs, known issues, and task-state reminders
@@ -188,6 +199,8 @@ Typical project flow:
    `agentic-workflow` when the task is non-trivial.
 7. Ask Codex to leave a handoff before ending unfinished work.
 8. When a decision is needed before continuing, Codex should record a blocker.
+9. When a task completes, Codex should remove its todo card and append a
+   timestamped `done.md` entry.
 
 Example prompts:
 

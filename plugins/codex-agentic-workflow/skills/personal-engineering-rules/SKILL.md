@@ -66,5 +66,9 @@ that wording.
 When graph-like code intelligence is available, use GitNexus.
 
 For large files, searches, logs, and test output, use context-mode so raw output
-does not flood the model context. Use RTK only for short shell commands where
-filtered output is useful.
+does not flood the model context. Use context7 before asserting library, API,
+SDK, CLI, or cloud-service behavior. Use RTK only for short shell commands
+where filtered output is useful.
+
+If one of these tools is expected but fails, report the exact tool and error to
+the user instead of silently falling back to raw search or memory.

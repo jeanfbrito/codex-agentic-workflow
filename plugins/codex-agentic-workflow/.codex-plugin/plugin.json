@@ -1,7 +1,7 @@
 {
   "name": "codex-agentic-workflow",
-  "version": "0.1.0",
-  "description": "Codex-native agentic workflow skills for task ledgers, blockers, handoffs, known issues, and engineering rules.",
+  "version": "0.2.0",
+  "description": "Codex-native agentic workflow skills for task boards, done logs, blockers, handoffs, known issues, and engineering rules.",
   "author": {
     "name": "Jean Brito",
     "url": "https://github.com/jeanfbrito"
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Codex Agentic Workflow",
-    "shortDescription": "Task ledger, blocker, handoff, and known-issue workflow for Codex.",
-    "longDescription": "Codex workflow skills for multi-session project work, local task ledgers, decision blockers, handoffs, known issues, and optional Codex hooks.",
+    "shortDescription": "Task board, done log, blocker, handoff, and known-issue workflow for Codex.",
+    "longDescription": "Codex workflow skills for multi-session project work, local task boards, done logs, decision blockers, handoffs, known issues, and optional Codex hooks.",
     "developerName": "Jean Brito",
     "category": "Productivity",
     "capabilities": [

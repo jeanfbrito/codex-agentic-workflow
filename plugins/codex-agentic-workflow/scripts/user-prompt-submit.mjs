@@ -26,7 +26,7 @@ if (!workVerb.test(prompt)) process.exit(0);
 
 console.log([
   'agentic workflow reminder:',
-  '- check .localdev/workflow and docs/KNOWN_ISSUES.md when relevant;',
-  '- use blockers/handoffs for multi-session state;',
+  '- check .localdev/workflow/todo.md, blockers.md, handoffs/, and docs/KNOWN_ISSUES.md when relevant;',
+  '- move completed todo cards to .localdev/workflow/done.md;',
   '- spawn subagents only when the user explicitly asked for delegation or parallel agents.',
 ].join(' '));

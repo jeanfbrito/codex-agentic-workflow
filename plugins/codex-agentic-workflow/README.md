@@ -3,10 +3,10 @@
 This plugin provides:
 
 - skills for task coordination, blockers, handoffs, and known issues
-- `.localdev/workflow/` project working state
+- `.localdev/workflow/` project task boards and done logs
 - Codex agent role mapping
 - model routing for explicit agent workflows
-- optional hooks that surface blockers and handoffs
+- optional hooks that surface blockers, handoffs, and active todo cards
 
 The plugin does not force subagent delegation. Codex policy requires explicit
 user permission before spawning subagents, so the skills use delegation only
@@ -38,6 +38,7 @@ chat should choose `codex-agentic-workflow:init-agentic` automatically when the
 workflow files are missing. It bootstraps:
 
 - `.localdev/workflow/todo.md`
+- `.localdev/workflow/done.md`
 - `.localdev/workflow/blockers.md`
 - `.localdev/workflow/findings.md`
 - `.localdev/workflow/handoffs/`
@@ -47,7 +48,10 @@ For ongoing work, describe the task normally. The main chat should choose
 `codex-agentic-workflow:agentic-workflow` automatically for non-trivial
 engineering tasks: multi-step work, multiple files, risky refactors,
 unknown-root-cause debugging, multi-session work, blockers, handoffs, known
-issues, or verification planning.
+issues, completion logs, or verification planning.
+
+`todo.md` holds only open cards with `[todo]`, `[doing]`, or `[blocked]`
+status. Completed work moves to `.localdev/workflow/done.md`.
 
 Other available skills:
 

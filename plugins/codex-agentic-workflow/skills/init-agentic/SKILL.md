@@ -1,6 +1,6 @@
 ---
 name: "init-agentic"
-description: "Use automatically when a project needs Codex agentic workflow setup, persistent task ledger files, .localdev/workflow/, docs/KNOWN_ISSUES.md, handoff/blocker scaffolding, or when agentic-workflow is requested but the workflow files are missing. Scaffold files without overwriting existing content."
+description: "Use automatically when a project needs Codex agentic workflow setup, persistent task board files, .localdev/workflow/, docs/KNOWN_ISSUES.md, handoff/blocker/done-log scaffolding, or when agentic-workflow is requested but the workflow files are missing. Scaffold files without overwriting existing content."
 ---
 
 # Init Agentic
@@ -19,6 +19,7 @@ project and the workflow files are missing.
    - `docs/`
 3. Create missing files:
    - `.localdev/workflow/todo.md`
+   - `.localdev/workflow/done.md`
    - `.localdev/workflow/blockers.md`
    - `.localdev/workflow/findings.md`
    - `docs/KNOWN_ISSUES.md`
@@ -33,14 +34,19 @@ project and the workflow files are missing.
 ```markdown
 # Todo
 
-## Task
-<!-- Current task summary. -->
+## [todo] Define current task
+- Assignee: main-thread
+- Attempts: 0/2
+- DoD: Define observable done criteria and verification evidence.
+- Deps: none
+```
 
-## Definition of Done
-<!-- Observable outcomes and verification evidence. -->
+`.localdev/workflow/done.md`:
 
-## Steps
-- [ ] Define the task.
+```markdown
+# Done
+
+<!-- Append completed task entries. Never load this file wholesale. -->
 ```
 
 `.localdev/workflow/blockers.md`:
@@ -57,7 +63,7 @@ project and the workflow files are missing.
 # Findings
 
 Ephemeral discoveries for the current task. Move durable project constraints to
-docs/KNOWN_ISSUES.md.
+docs/KNOWN_ISSUES.md. Delete on session close when no longer useful.
 ```
 
 `docs/KNOWN_ISSUES.md`:
