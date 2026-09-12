@@ -1,6 +1,6 @@
 {
   "name": "codex-agentic-workflow",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Codex-native agentic workflow skills for task boards, done logs, blockers, handoffs, known issues, and engineering rules.",
   "author": {
     "name": "Jean Brito",

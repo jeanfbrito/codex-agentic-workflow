@@ -9,6 +9,8 @@ const hooksPath = path.join(home, '.codex', 'hooks.json');
 const backupPath = `${hooksPath}.bak.codex-agentic-workflow`;
 
 const entries = [
+  { event: 'PreCompact', matcher: '', command: `node "${path.join(pluginRoot, 'scripts', 'pre-compact.mjs')}"` },
+  { event: 'Stop', matcher: '', command: `node "${path.join(pluginRoot, 'scripts', 'stop-ledger-audit.mjs')}"` },
   {
     event: 'SessionStart',
     matcher: '',

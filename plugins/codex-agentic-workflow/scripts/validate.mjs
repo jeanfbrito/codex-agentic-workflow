@@ -111,7 +111,7 @@ withTempProject((dir) => {
   check('session hook reports active blocker', output.includes('active blockers'));
   check('session hook reports doing card details', output.includes('[doing] Active task') && output.includes('Attempts: 1/2') && output.includes('DoD: prove active summaries'));
   check('session hook reports blocked card details', output.includes('[blocked] Stuck task') && output.includes('Attempts: 2/2'));
-  check('session hook skips todo backlog', !output.includes('Backlog task'));
+  check('session hook includes open todo backlog', output.includes('[todo] Backlog task'));
   check('session hook reports handoff', output.includes('handoffs/demo.md'));
 });
 

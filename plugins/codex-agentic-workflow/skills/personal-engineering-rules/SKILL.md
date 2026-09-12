@@ -38,8 +38,8 @@ Use these rules as global Codex behavior guidance.
 - Do not stop while a bug remains unresolved unless the user asks you to stop or
   you hit a real blocker.
 - If blocked, capture the blocker and ask for the missing decision.
-- After a meaningful correction, preserve the lesson in the appropriate memory
-  system when available.
+- After a meaningful correction, update durable memory only when the user
+  explicitly requests it. Use project handoffs for active task continuity.
 
 ## Git
 

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 import { runLifecycle } from './lifecycle.mjs';
-await runLifecycle('SessionStart');
+await runLifecycle('PreCompact');

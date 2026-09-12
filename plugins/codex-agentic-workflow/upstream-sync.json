@@ -1,0 +1,71 @@
+{
+  "source": "/Users/jean/Github/agentic-workflow-framework",
+  "updated": "2026-09-12T19:25:40.147Z",
+  "upstreamVersion": "0.3.0",
+  "hashes": {
+    "AGENTIC.md": "e322cd352d1cf798919d859f2cf1de3a0d0a4cd3ebdfd3f57f6dae0ae76d2ba1",
+    "agents/planner.md": "89731157366df82c02c788efe6dc58af64da6caca617b1287b0185e5d6350dc2",
+    "agents/auditor.md": "fad587c7525f05d774c9fcd692c28cb26b516c07adc444a46406a326ce0a7251",
+    "agents/builder-fast.md": "91b028720b8c76f9cdaa109ae1c3e85d9e3b616246c00bf9075ffa7b8f4898f1",
+    "agents/builder-smart.md": "9cb508a1da5b8f11f2ed71b0c0e95d6c88d09df40a016ef35fdc9817395d1af5",
+    "agents/builder-trivial.md": "014c4b6a4e87fef38450f9c1ebafcb737f19ea43815146a15f3d77fdd68028e2",
+    "agents/finder.md": "a99f14488b9eec6a141fd4e767a4aa9eb9445269d66a72d021bc4cc9c1acc75b",
+    "agents/researcher.md": "8ee92931fab42cf18cb988031bb246d40f4d6adb4be1dcdf6fe5fae32643b301",
+    "agents/reviewer.md": "e2c8fe0fa48411522f976181c632fdea1aed0130f405db23767cf3e423d97655",
+    "agents/tester.md": "8f456c5505987ee013d67fd75b2a3223dfb896b3a035e51b90df770cdfcbe0d6",
+    "agents/watcher.md": "b4dc0547cb8fadab74fe025be19d289d9ff624ab2a260eea85f80ac5e9f91f14",
+    "skills/personal-engineering-rules/SKILL.md": "d429780624781a0dcfb79c6e63e19db4ed065490adb4839297118100658dacc9"
+  },
+  "adaptations": [
+    "Explicit delegation only",
+    "Codex continuation tools and user-authorized explicit role model routing",
+    "Serialize shared ledger writes",
+    "No invented Workflow or worktree flags",
+    "Codex native hook payload and Stop systemMessage",
+    "Session-scoped recovery files",
+    "No blanket permission grants or durable-memory writes",
+    "Native successful edit transcript audit only; shell edits not covered"
+  ],
+  "modelRouting": {
+    "finder": [
+      "gpt-5.3-codex-spark",
+      "low"
+    ],
+    "watcher": [
+      "gpt-5.3-codex-spark",
+      "low"
+    ],
+    "builder-trivial": [
+      "gpt-5.3-codex-spark",
+      "medium"
+    ],
+    "tester": [
+      "gpt-5.3-codex-spark",
+      "medium"
+    ],
+    "researcher": [
+      "gpt-5.6-terra",
+      "medium"
+    ],
+    "builder-fast": [
+      "gpt-5.6-terra",
+      "high"
+    ],
+    "reviewer": [
+      "gpt-5.6-sol",
+      "high"
+    ],
+    "planner": [
+      "gpt-5.6-sol",
+      "high"
+    ],
+    "builder-smart": [
+      "gpt-6-astra",
+      "high"
+    ],
+    "auditor": [
+      "gpt-6-astra",
+      "high"
+    ]
+  }
+}

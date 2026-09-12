@@ -26,6 +26,8 @@ if (!workVerb.test(prompt)) process.exit(0);
 
 console.log([
   'agentic workflow reminder:',
+  'updated doctrine: /Users/jean/Github/codex-agentic-workflow/plugins/codex-agentic-workflow/AGENTIC.md (read once for non-trivial workflow work);',
+  '- use exact focused DoD checks; reuse agents on retries; keep servers on the main thread;',
   '- check .localdev/workflow/todo.md, blockers.md, handoffs/, and docs/KNOWN_ISSUES.md when relevant;',
   '- move completed todo cards to .localdev/workflow/done.md;',
   '- spawn subagents only when the user explicitly asked for delegation or parallel agents.',

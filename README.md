@@ -263,3 +263,31 @@ Then validate:
 ```bash
 node plugins/codex-agentic-workflow/scripts/validate.mjs
 ```
+
+## Upstream v3 update (Codex 0.4.0)
+
+The current source is `~/Github/agentic-workflow-framework`; exact source hashes
+are recorded in `plugins/codex-agentic-workflow/upstream-sync.json`.
+The Codex doctrine now lives in the plugin `AGENTIC.md`; the workflow skill is
+a thin entry point. It includes continuation on the same agent, bounded scouts,
+main-thread server ownership, focused builder proof, and explicit dependencies.
+Delegation remains opt-in. Roles now use explicit model assignments; see
+`plugins/codex-agentic-workflow/MODEL_ROUTING.md`.
+
+All ten role definitions are in the plugin `agents/` directory, including
+`builder-trivial` and `watcher`. Install them with:
+
+```bash
+node plugins/codex-agentic-workflow/scripts/install-codex-agents.mjs
+node plugins/codex-agentic-workflow/scripts/install-codex-hooks.mjs
+```
+
+The hooks now include PreCompact recovery and an advisory Stop ledger audit.
+SessionStart includes all open cards under a 4000-character budget and warns
+about stale handoffs. Stop recognizes successful native patch/write/edit calls
+in Codex transcripts; shell-generated edits and unknown transcript formats are
+not covered. It emits a warning and never forces continuation.
+
+Codex hook wire behavior follows [official hook documentation](https://learn.chatgpt.com/docs/hooks).
+No blanket permission grants or duplicate context-mode registrations are added.
+Start a new conversation to reload role and skill definitions.
