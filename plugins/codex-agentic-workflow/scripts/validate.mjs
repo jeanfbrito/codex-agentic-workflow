@@ -143,6 +143,22 @@ withTempProject((dir) => {
   check('init --no-agents skips AGENTS.md', !fs.existsSync(path.join(dir, 'AGENTS.md')));
 });
 
+const shortPromptOutput = runNode(promptHook, {
+  input: JSON.stringify({ prompt: 'fix typo' }),
+});
+check('short work prompt receives execution budget', shortPromptOutput.includes('discovery budget 3 calls'));
+check('prompt hook requires direct edits and stopping', shortPromptOutput.includes('Patch directly') && shortPromptOutput.includes('Stop after focused DoD passes'));
+check('prompt reminder stays under 700 characters', shortPromptOutput.length < 700);
+check('wire request receives workflow guidance', runNode(promptHook, {
+  input: JSON.stringify({ prompt: 'wire this into the workflow' }),
+}).includes('discovery budget'));
+check('non-work prompt remains silent', runNode(promptHook, {
+  input: JSON.stringify({ prompt: 'hello' }),
+}) === '');
+check('orchestrator opt-out remains silent', runNode(promptHook, {
+  input: JSON.stringify({ prompt: 'off orchestrator; fix typo' }),
+}) === '');
+
 let failures = 0;
 for (const item of checks) {
   if (!item.ok) failures += 1;

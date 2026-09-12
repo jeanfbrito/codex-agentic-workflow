@@ -19,6 +19,17 @@ Use these rules as global Codex behavior guidance.
 - For non-trivial changes, pause when the solution feels hacky and look for a
   cleaner design. Do not over-engineer simple fixes.
 
+## Execution Discipline
+
+- Reuse context before searching. Stop exploration when the target, contract,
+  and focused check are known; extend a discovery budget only for a named gap.
+- Use context-mode for derived findings, RTK for short supported observations,
+  and GitNexus for structural questions. Do not dump full pages or tool registries.
+- Patch ordinary files directly. Scripts need a repetitive/generated task or
+  a reusable installation purpose, not just several files to edit.
+- Stop after the required proof passes. Avoid duplicate agent work, repeated
+  checks, and unsolicited report or installer scaffolding.
+
 ## Verification
 
 - Do not claim completion without evidence.

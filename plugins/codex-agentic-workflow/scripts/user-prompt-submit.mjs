@@ -7,7 +7,7 @@ let payload = {};
 try { payload = JSON.parse(input || '{}'); } catch {}
 
 const prompt = String(payload.prompt || payload.user_prompt || payload.input || '').trim();
-if (prompt.length < 40) process.exit(0);
+if (!prompt) process.exit(0);
 
 const lower = prompt.toLowerCase();
 const bypass = [
@@ -21,14 +21,13 @@ const bypass = [
 ];
 if (bypass.some((item) => lower.includes(item))) process.exit(0);
 
-const workVerb = /\b(refactor|implement|fix|debug|investigate|review|port|migrate|build|add|change|update|rewrite|analyze)\b/i;
+const workVerb = /\b(refactor|implement|fix|debug|investigate|review|port|migrate|build|add|change|update|rewrite|analyze|wire)\b/i;
 if (!workVerb.test(prompt)) process.exit(0);
 
 console.log([
-  'agentic workflow reminder:',
-  'updated doctrine: /Users/jean/Github/codex-agentic-workflow/plugins/codex-agentic-workflow/AGENTIC.md (read once for non-trivial workflow work);',
-  '- use exact focused DoD checks; reuse agents on retries; keep servers on the main thread;',
-  '- check .localdev/workflow/todo.md, blockers.md, handoffs/, and docs/KNOWN_ISSUES.md when relevant;',
-  '- move completed todo cards to .localdev/workflow/done.md;',
-  '- spawn subagents only when the user explicitly asked for delegation or parallel agents.',
+  'agentic: follow /Users/jean/Github/codex-agentic-workflow/plugins/codex-agentic-workflow/AGENTIC.md (read once).',
+  'Reuse context; discovery budget 3 calls, extend only for a named gap; concise derived output via context-mode/RTK; GitNexus for structural questions.',
+  'Patch directly; no unnecessary installers/reports. Stop after focused DoD passes; no duplicate searches/tests.',
+  'Check relevant workflow state/known issues; completed cards go to done.md.',
+  'Delegate only on explicit user request; reuse agents; main thread owns servers.',
 ].join(' '));

@@ -93,6 +93,57 @@ approaches, stop guessing and identify the root constraint. Use an auditor
 only if delegation is authorized; otherwise perform that diagnosis locally.
 Re-plan from the evidence. Escalate the model only if capability is the issue.
 
+## Execution budget: required for main thread and every role
+
+Optimize the amount of work before optimizing model price. context-mode, RTK,
+and GitNexus reduce the cost of useful work; their presence does not justify
+extra searches, tool calls, agents, or generated code.
+
+1. Before tools, state the concrete outcome, known target files, and smallest
+   useful verification. Reuse paths, decisions, and file contents already in
+   the conversation. Do not rediscover a repository for a scoped follow-up.
+2. Make one bounded discovery pass. Default to at most three discovery tool
+   calls before editing; batch independent questions. Treat this as a checkpoint,
+   not a reason to guess: if context remains insufficient, name the specific
+   unknown and the next bounded lookup that resolves it. Extend only for that
+   unknown, a failure, a safety-critical dependency, or explicitly broad research.
+3. Stop exploring once the edit location, relevant contract, and verification
+   command are known. Do not perform another inventory, documentation lookup,
+   graph query, or agent dispatch merely to increase confidence.
+4. Route by purpose. GitNexus answers indexed structural/impact questions;
+   skip it for prose/config edits without symbol changes. context-mode processes
+   large results and returns derived findings. RTK compresses supported short
+   shell observations. Native reads provide exact bytes needed for a patch.
+   A missing graph symbol is UNKNOWN: state the gap once and use a bounded
+   source lookup when authorized, rather than looping over equivalent queries.
+5. Keep tool results bounded: normally at most 20 lines per discovery result.
+   Print paths, relevant excerpts, counts, or a verdict. Do not dump full tool
+   registries, tool descriptions, documentation pages, logs, or entire configs.
+   Retrieve only the needed tool schema and source sections. Larger exact reads
+   are appropriate when a correct edit actually requires them.
+6. Use direct patches for ordinary code, configuration, and documentation.
+   Use scripts for genuinely repetitive transformations, generated artifacts,
+   or a reusable installer the task needs. Do not build temporary installers,
+   migration frameworks, or backup/report machinery for a handful of edits.
+   Being outside the workspace requires the normal approval path, not a script
+   wrapper. Prefer one coherent patch phase; reread only for a conflict, an
+   unexpected external edit, or a concrete unresolved question.
+7. Run the exact focused DoD checks. After they pass, stop. Repeat only after
+   a relevant edit, failure, contradictory evidence, or explicit request for
+   independent verification. Never claim correctness solely to meet a budget.
+8. Record only useful continuity: a short open card and completion evidence
+   for medium/full work. Do not create a separate report for a small edit unless
+   requested or needed for a real handoff. Report facts, not invented savings.
+
+Delegated briefs include exact ownership, numbered steps, an output shape, a
+discovery-call budget, and a stop condition. Existing role limits remain upper
+bounds, not targets to spend. The main thread should not repeat an agent's
+completed search or passing proof without new evidence. Keep Spark tasks narrow
+and summarize context instead of copying a large parent conversation.
+
+These are execution rules, not an automatic quota enforcement mechanism.
+Hooks remind agents; they do not measure token savings or replace judgment.
+
 ## Tools and evidence
 
 - Use GitNexus for structural questions and impact in indexed repositories.

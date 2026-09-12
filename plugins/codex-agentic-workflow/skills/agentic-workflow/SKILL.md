@@ -9,6 +9,12 @@ Read [the Codex workflow doctrine](../../AGENTIC.md) once when applying this
 skill. It is the single source of truth adapted from agentic-workflow-framework.
 Do not spawn agents unless the user explicitly requests delegation.
 
+Apply the doctrine's Execution budget to the main thread and every delegated
+brief: reuse known context, make one bounded discovery pass, return concise
+derived tool output, patch directly, and stop after the focused DoD passes.
+Before exceeding three discovery calls, identify the unresolved question that
+justifies the next lookup. Do not create temporary installers for ordinary edits.
+
 Keep open cards in `.localdev/workflow/todo.md` and completions in
 `.localdev/workflow/done.md`. A minimal open card is:
 
