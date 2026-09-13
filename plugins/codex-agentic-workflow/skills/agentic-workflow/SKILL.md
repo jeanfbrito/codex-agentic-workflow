@@ -1,22 +1,18 @@
 ---
 name: "agentic-workflow"
-description: "Use for non-trivial Codex engineering work, task boards, blockers, handoffs, focused verification, and explicitly requested delegation."
+description: "Manage Codex task ledgers and handoffs for work spanning sessions, plus explicitly requested agent coordination."
 ---
 
 # Agentic Workflow
 
-Read [the Codex workflow doctrine](../../AGENTIC.md) once when applying this
-skill. It is the single source of truth adapted from agentic-workflow-framework.
-Do not spawn agents unless the user explicitly requests delegation.
+Reuse [the Codex workflow](../../AGENTIC.md) if already loaded; otherwise read it
+once when this workflow applies. Handle a self-contained edit directly without
+a routine planning or agent pipeline. Delegate only on the user's explicit request.
 
-Apply the doctrine's Execution budget to the main thread and every delegated
-brief: reuse known context, make one bounded discovery pass, return concise
-derived tool output, patch directly, and stop after the focused DoD passes.
-Before exceeding three discovery calls, identify the unresolved question that
-justifies the next lookup. Do not create temporary installers for ordinary edits.
-
-Keep open cards in `.localdev/workflow/todo.md` and completions in
-`.localdev/workflow/done.md`. A minimal open card is:
+Use [ledger formats](references/ledgers.md) when recording or resuming work, and
+[delegation guidance](references/delegation.md) when coordinating authorized agents.
+Keep open cards in `.localdev/workflow/todo.md` and completion evidence in
+`.localdev/workflow/done.md`. A minimal card is:
 
 ```markdown
 ## [doing] <task title>
@@ -26,6 +22,5 @@ Keep open cards in `.localdev/workflow/todo.md` and completions in
 - Deps: none
 ```
 
-For medium work, implement and prove the DoD without a routine planner,
-reviewer, or tester round. Reuse agents on retries when delegation is allowed.
-Mark blocked runtime verification explicitly as `UNVERIFIED`.
+Continue through the requested outcome and focused checks under existing
+authorization. Report any required check that cannot run as `UNVERIFIED`.

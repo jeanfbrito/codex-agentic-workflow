@@ -1,85 +1,41 @@
 ---
 name: "personal-engineering-rules"
-description: "Jean Brito's portable engineering rules for Codex: root cause, reference-first ports, cautious reviews, verification, and customer-facing wording."
+description: "Apply Jean's conventions when porting reference behavior, evaluating review feedback, or writing engineering reports."
 ---
 
 # Personal Engineering Rules
 
-Use these rules as global Codex behavior guidance.
+Apply the relevant convention while preserving the user's chosen scope.
 
-## Core Principles
+## Reference Behavior and Fixes
 
-- Simplicity first: make the smallest coherent change that solves the real
-  problem.
-- No temporary fixes unless the user explicitly asks for a temporary workaround.
-- Understand before changing. Working code is correct until proven otherwise.
-- Reference first: when porting or reimplementing from a reference codebase,
-  understand the full pipeline, inputs, transformations, and edge cases before
-  writing code.
-- For non-trivial changes, pause when the solution feels hacky and look for a
-  cleaner design. Do not over-engineer simple fixes.
+When porting behavior, inspect the relevant reference implementation and enough
+of its input/output pipeline to preserve coordinate transforms, units, ordering,
+and edge cases. Expand the read when a dependency changes the result; an entire
+reference repository is not a prerequisite to a scoped port.
 
-## Execution Discipline
+Prefer a root-cause fix. When a constraint calls for a workaround, make its
+limitation explicit and keep it within the requested outcome. Resolve ordinary
+implementation choices from evidence; ask only for a material missing decision.
 
-- Reuse context before searching. Stop exploration when the target, contract,
-  and focused check are known; extend a discovery budget only for a named gap.
-- Use context-mode for derived findings, RTK for short supported observations,
-  and GitNexus for structural questions. Do not dump full pages or tool registries.
-- Patch ordinary files directly. Scripts need a repetitive/generated task or
-  a reusable installation purpose, not just several files to edit.
-- Stop after the required proof passes. Avoid duplicate agent work, repeated
-  checks, and unsolicited report or installer scaffolding.
+## Review Feedback
 
-## Verification
+Treat bot and agent comments as hypotheses to check against the code and request.
+Before changing an invariant, schema, or contract, inspect the affected callers
+and consumers. Do not apply a suggestion solely because a reviewer made it.
 
-- Do not claim completion without evidence.
-- Prefer targeted tests first, then broader checks when risk justifies it.
-- If verification cannot run, state the reason and residual risk.
+## Engineering Reports
 
-## Reviews And Bots
+Preserve technical truth in postmortems, PR descriptions, changelogs, and incident
+reports. Describe the observed scope and validation gaps. Use terms such as
+"regression" or "failed in production" when evidence supports them; do not soften
+an established failure or imply a failure that was not observed.
 
-- Do not blindly apply CodeRabbit or other bot feedback.
-- Treat bot comments and subagent reviews as useful signals, not authoritative
-  fixes.
-- Before applying a review suggestion that changes an invariant, schema, or
-  contract, trace at least one caller and one consumer.
+Distinguish source inspection, focused tests, and live behavior. Report a blocked
+check and its practical limit without implying that untested behavior passed.
 
-## Persistence
+## Authorization
 
-- Do not stop while a bug remains unresolved unless the user asks you to stop or
-  you hit a real blocker.
-- If blocked, capture the blocker and ask for the missing decision.
-- After a meaningful correction, update durable memory only when the user
-  explicitly requests it. Use project handoffs for active task continuity.
-
-## Git
-
-- Never commit, push, or open a PR unless the user explicitly asks.
-- A request to fix or update code is not permission to commit.
-
-## Customer-Facing Writing
-
-In postmortems, PR descriptions, changelogs, release notes, and incident
-reports, preserve technical truth while avoiding avoidable trust damage.
-
-Prefer framing partial coverage as scope or validation gaps:
-
-- "did not cover path X"
-- "required hardening for context Y"
-- "gap exposed by enterprise validation"
-
-Avoid unsupported claims such as "was broken", "silently non-functional",
-"regression", or "failed in production" unless the evidence specifically proves
-that wording.
-
-## Code Intelligence
-
-When graph-like code intelligence is available, use GitNexus.
-
-For large files, searches, logs, and test output, use context-mode so raw output
-does not flood the model context. Use context7 before asserting library, API,
-SDK, CLI, or cloud-service behavior. Use RTK only for short shell commands
-where filtered output is useful.
-
-If one of these tools is expected but fails, report the exact tool and error to
-the user instead of silently falling back to raw search or memory.
+Do not commit, push, or open a PR without a user request authorizing that action.
+Preserve authorization already given in the session. Change durable memory only
+when explicitly requested; an observed lesson is not permission to save it.

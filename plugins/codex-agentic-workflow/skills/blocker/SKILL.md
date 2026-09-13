@@ -1,6 +1,6 @@
 ---
 name: "blocker"
-description: "Append a decision blocker to .localdev/workflow/blockers.md, mark the active todo card blocked, and stop the current task until the user resolves it."
+description: "Record a material missing decision that blocks a task, preserving independent work while awaiting the answer."
 ---
 
 # Blocker
@@ -29,7 +29,7 @@ shape to detect active blockers.
 2. Append a complete entry using the canonical format.
 3. If `.localdev/workflow/todo.md` has the active task, set its card status to
    `[blocked]`.
-4. Stop the current task.
+4. Stop only work that depends on the missing decision; continue independent work.
 5. Present the blocker to the user and ask for the decision.
 6. When resolved, remove only that blocker entry, move the card back to
    `[doing]`, and continue.

@@ -1,20 +1,20 @@
 {
   "source": "/Users/jean/Github/agentic-workflow-framework",
-  "updated": "2026-09-12T19:25:40.147Z",
+  "updated": "2026-09-13T19:12:06.443Z",
   "upstreamVersion": "0.3.0",
   "hashes": {
-    "AGENTIC.md": "e322cd352d1cf798919d859f2cf1de3a0d0a4cd3ebdfd3f57f6dae0ae76d2ba1",
-    "agents/planner.md": "89731157366df82c02c788efe6dc58af64da6caca617b1287b0185e5d6350dc2",
-    "agents/auditor.md": "fad587c7525f05d774c9fcd692c28cb26b516c07adc444a46406a326ce0a7251",
-    "agents/builder-fast.md": "91b028720b8c76f9cdaa109ae1c3e85d9e3b616246c00bf9075ffa7b8f4898f1",
-    "agents/builder-smart.md": "9cb508a1da5b8f11f2ed71b0c0e95d6c88d09df40a016ef35fdc9817395d1af5",
-    "agents/builder-trivial.md": "014c4b6a4e87fef38450f9c1ebafcb737f19ea43815146a15f3d77fdd68028e2",
-    "agents/finder.md": "a99f14488b9eec6a141fd4e767a4aa9eb9445269d66a72d021bc4cc9c1acc75b",
-    "agents/researcher.md": "8ee92931fab42cf18cb988031bb246d40f4d6adb4be1dcdf6fe5fae32643b301",
-    "agents/reviewer.md": "e2c8fe0fa48411522f976181c632fdea1aed0130f405db23767cf3e423d97655",
-    "agents/tester.md": "8f456c5505987ee013d67fd75b2a3223dfb896b3a035e51b90df770cdfcbe0d6",
-    "agents/watcher.md": "b4dc0547cb8fadab74fe025be19d289d9ff624ab2a260eea85f80ac5e9f91f14",
-    "skills/personal-engineering-rules/SKILL.md": "d429780624781a0dcfb79c6e63e19db4ed065490adb4839297118100658dacc9"
+    "AGENTIC.md": "5c92224f9fdda5c0df4dc672722fd97eb446e0bd7a5856a3a3ae138e9e866dd1",
+    "agents/planner.md": "250dc0fb520ca7949e7e6d9a6f7ea17c6e1b630e16a9b8869a4da3366aa8a86a",
+    "agents/auditor.md": "8e23f19f2d9b8726070c3fb877605dbad0ae16e2c69fb8ea76f7840064f7cd60",
+    "agents/builder-fast.md": "b19a542a1f95086db06afb1a8295778a84845b256546df05fdaabae206d591cd",
+    "agents/builder-smart.md": "ed7e8664b16f8dbfc3891b4457d84fed6d734f4c660a1ddaea30eb9e87ee9214",
+    "agents/builder-trivial.md": "5c9eb88348f02be7bd90ceba665394e8e0ac33e54d51f35434899395ac744cc4",
+    "agents/finder.md": "4dd62935457e2424677f1a46c678eae3438058333c95abbaec5baa31ed9ed5e6",
+    "agents/researcher.md": "1d5e05b36b95b832b7a54de0cb4259e8cdc00a6c0ac063bb232fc5468c6b229e",
+    "agents/reviewer.md": "257389ab02e64635e44e14b9bb59a71b1454626269d053e38def0e30df2bbfe1",
+    "agents/tester.md": "ab97ce47fb44397080a721eed5c1f831251fa25110c070f9c2293ba040fb7e9a",
+    "agents/watcher.md": "236efb33e87cf410a2306915f070ae4d10dddc3935b3673061afb36ff52ba17b",
+    "skills/personal-engineering-rules/SKILL.md": "94d98c405bcb6874e767334f4ea111137e892c0e032d0b82cdfe3b8907e762ed"
   },
   "adaptations": [
     "Explicit delegation only",
@@ -24,7 +24,8 @@
     "Codex native hook payload and Stop systemMessage",
     "Session-scoped recovery files",
     "No blanket permission grants or durable-memory writes",
-    "Native successful edit transcript audit only; shell edits not covered"
+    "Native successful edit transcript audit only; shell edits not covered",
+    "Task-scoped skill routing and progressive disclosure; completion under existing authorization"
   ],
   "modelRouting": {
     "finder": [

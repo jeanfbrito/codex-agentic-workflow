@@ -1,246 +1,102 @@
 # Agentic Workflow for Codex
 
-Adapted from `~/Github/agentic-workflow-framework/AGENTIC.md` (v3 doctrine).
-This is the Codex plugin's single source of workflow guidance. Source hashes
-and the adaptation boundary are recorded in `upstream-sync.json`.
+Conventions for carrying engineering work through completion, with optional
+delegation and continuity across sessions. Follow the user's current scope,
+authorization, and runtime instructions; this framework adds no permissions.
 
-## Operating mode
+## Operating Mode
 
-Work locally by default. Spawn subagents only when the user explicitly asks
-for delegation or parallel agents. Loading this document is not permission to
-delegate. Session instructions and the user's current request take precedence.
-Use the available Codex tools, never assume Claude-only tools exist.
+Handle clear, bounded work directly. Delegate only when the user explicitly requests agents or parallel work and
+a bounded task can run alongside useful local work.
+File count alone does not justify a planner, subagent, or review round.
+Keep the user's selected model; role configuration applies only to delegated work.
 
-For non-trivial work, read relevant open handoffs, blockers, findings, todo
-cards, and `docs/KNOWN_ISSUES.md` once. Search historical `done.md` entries
-when needed; never load that append-only log wholesale. Keep project working
-state under `.localdev/workflow/` and keep `.localdev/` gitignored.
+Choose enough structure for the task:
 
-Infer the smallest sufficient tier:
-
-| Tier | Workflow |
+| Tier | Use |
 | --- | --- |
-| trivial | One small answer/change or a fully specified mechanical transform. No routine planning or independent review. |
-| medium | Main-thread card and implementation; exact focused DoD checks. No routine planner/reviewer/tester round. |
-| full | Ambiguous architecture, risky core changes, or multiple subsystems; plan, implementation, risk review, then combined checks at arc close. |
+| trivial | A small answer or edit. Work directly; no routine card or planning round. |
+| medium | Work needing several steps or continuity. Keep a card with observable completion criteria and focused verification. |
+| full | Architectural, risky, or cross-system work. Resolve material design choices, plan dependencies, and review the risky changes. |
 
-Create a card for medium/full work. Resolve ordinary choices using existing
-authorization. Ask only when an unresolved decision materially affects the
-outcome; do not add an approval round for an already authorized next step.
+`/agentic <task> --tier=trivial|medium|full` selects structure, not authorization
+to delegate or perform external actions. Infer the tier when omitted. Existing
+"do it yourself" and "off orchestrator" requests continue to disable delegation.
 
-## Async dispatch, when explicitly authorized
+## Context and Decisions
 
-- Delegate only concrete bounded work that can run beside useful local work.
-  Keep a sole critical-path task local when the runtime cannot run it
-  synchronously. Planner/auditor decisions are dependencies, not background work.
-- Completion is notification-driven. Do not repeatedly call status or poll on
-  a cadence. Use the runtime's wait tool when there is no independent work.
-- Continue the same agent on follow-ups and attempt two. In Codex, use
-  `followup_task` to resume an idle agent and `send_message` for an active one;
-  sending a message alone does not start a new turn on an idle agent.
-- Scout briefs name exact files or graph queries, numbered steps, output shape,
-  and a tool-call budget (normally at most 12). Return `PARTIAL` at the budget.
-  Diagnose a scout silent beyond its expected duration, including permissions,
-  before one bounded probe or a narrower restart. Never let it loop indefinitely.
-- Assign explicit file ownership. Workers are not alone in the codebase and
-  must preserve others' edits. Serialize overlapping or unknown write scopes,
-  or use actual isolated worktrees supported by the environment. Codex's
-  `spawn_agent` does not imply isolation. Do not pass invented isolation flags.
-- On a shared tree, no stash/pop, checkout/reset, or git operation that reverts
-  teammates' changes. The main thread owns shared todo/done/findings writes;
-  agents return proposed entries. This provides a single writer without relying
-  on Claude's `ledger-append.sh` installation.
-- Keep long-lived servers in a main-thread-owned process session. A watcher
-  handles finite jobs or a bounded logfile digest, never server lifetime or
-  polling other agents. Preserve a requested running server after reporting.
-- For three or more same-stage agents or a multi-stage fan-out, model explicit
-  dependencies and structured result schemas. Use a Workflow tool only if it
-  exists and its use is authorized; otherwise use available Codex coordination
-  within the concurrency limit. This rule is not a standing tool opt-in.
-- Diagnose real approval failures under the active sandbox. Do not install
-  blanket permissions or disable approval controls to avoid background stalls.
+Reuse context already available. For continuing work, read the relevant open
+card and matching handoff. Consult blockers, findings, and
+`docs/KNOWN_ISSUES.md` when they affect the task. Search historical `done.md`
+entries only when needed; the append-only log can grow without bound.
 
-## Roles and capability tiers
+Read enough source to understand the affected contract. Consult architecture
+docs for boundaries, reference implementations for porting, and deployment docs
+when preparing a deployment. A small edit does not require a repository survey.
 
-The user authorized explicit role routing. Custom role files set both model
-and reasoning effort; the main conversation keeps its selected model.
-See [MODEL_ROUTING.md](MODEL_ROUTING.md) for assignments and fallback rules.
-Do not replace these assignments with the parent model just because a model
-is absent from the advertised override list: Spark passed a live spawn probe.
+Resolve ordinary implementation choices from the request and available evidence.
+Ask when missing information materially changes the outcome or an action needs
+authorization. Continue independent work while a required answer is pending.
+Do not add a planning approval or repeat approval for an already authorized step.
 
-| Role | Tier | Responsibility |
-| --- | --- | --- |
-| planner | reasoning | Ambiguous, architectural, risky-core brief; no code or delegation. Skip for clear tasks; no routine re-approval. |
-| auditor | audit | Diagnose the root constraint after two failures; redesign before another attempt. |
-| builder-fast | coding | Default scoped implementation, including small multi-file changes. Prove its own DoD. |
-| builder-smart | reasoning/coding | Failed ordinary implementation or strategy-grade algorithms/concurrency. |
-| builder-trivial | fast | One fully specified repetitive transformation across five or more sites. |
-| finder | fast | Bounded, read-only code location and call-chain mapping. |
-| researcher | fast/reasoning | Primary-source API, library, CLI, and platform evidence. |
-| reviewer | reasoning | Risky-arc diff review; at most one focused spot check, no repeated suite. |
-| tester | fast | Independent combined proof at arc close, missing builder proof, or explicit request. |
-| watcher | fast | Finite noisy command or bounded logfile digest; concise verdict and exact errors. |
+## Completion and Evidence
 
-Builders report exact commands, outcomes/numbers, touched paths, and remaining
-risks. Their proof is the per-card verification. Do not rerun it without a
-failure, new change, contradiction, or explicitly requested independent check.
+Carry the requested work through implementation and the checks needed to make
+the result usable and reviewable. Fix failures caused by the change and rerun
+affected checks within existing authorization. Do not stop at the first patch
+when running or inspecting the result is part of the request.
 
-## Two-strike rule
+Choose verification from the project's actual commands and the affected behavior.
+Use focused checks; broaden for an unresolved risk, integration boundary, or
+explicit requirement. Reuse passing evidence until a relevant edit, failure,
+contradiction, or request for independent verification justifies another run.
 
-Every active card has `Attempts: N/2`. After the first failed approach, send
-the diagnosis to the same builder if delegation is active. At two failed
-approaches, stop guessing and identify the root constraint. Use an auditor
-only if delegation is authorized; otherwise perform that diagnosis locally.
-Re-plan from the evidence. Escalate the model only if capability is the issue.
+For process lifetime, IPC, global command resolution, and UI behavior, exercise
+the real path when available. Distinguish source inspection, mocked tests, and
+live verification. If a required check cannot run, report `UNVERIFIED`, the
+reason, and what was checked; complete unaffected work before handing back.
 
-## Execution budget: required for main thread and every role
+After two failed approaches to the same problem, diagnose the root constraint
+before trying another implementation. Record the failed approaches on an active
+card. Use an auditor only when delegation is authorized and useful; otherwise
+diagnose locally. This checkpoint does not require a routine user approval.
 
-Optimize the amount of work before optimizing model price. context-mode, RTK,
-and GitNexus reduce the cost of useful work; their presence does not justify
-extra searches, tool calls, agents, or generated code.
+Stop when the requested outcome and its focused checks are complete. Report the
+result, evidence, and remaining limitations. Do not commit or push unless asked.
 
-1. Before tools, state the concrete outcome, known target files, and smallest
-   useful verification. Reuse paths, decisions, and file contents already in
-   the conversation. Do not rediscover a repository for a scoped follow-up.
-2. Make one bounded discovery pass. Default to at most three discovery tool
-   calls before editing; batch independent questions. Treat this as a checkpoint,
-   not a reason to guess: if context remains insufficient, name the specific
-   unknown and the next bounded lookup that resolves it. Extend only for that
-   unknown, a failure, a safety-critical dependency, or explicitly broad research.
-3. Stop exploring once the edit location, relevant contract, and verification
-   command are known. Do not perform another inventory, documentation lookup,
-   graph query, or agent dispatch merely to increase confidence.
-4. Route by purpose. GitNexus answers indexed structural/impact questions;
-   skip it for prose/config edits without symbol changes. context-mode processes
-   large results and returns derived findings. RTK compresses supported short
-   shell observations. Native reads provide exact bytes needed for a patch.
-   A missing graph symbol is UNKNOWN: state the gap once and use a bounded
-   source lookup when authorized, rather than looping over equivalent queries.
-5. Keep tool results bounded: normally at most 20 lines per discovery result.
-   Print paths, relevant excerpts, counts, or a verdict. Do not dump full tool
-   registries, tool descriptions, documentation pages, logs, or entire configs.
-   Retrieve only the needed tool schema and source sections. Larger exact reads
-   are appropriate when a correct edit actually requires them.
-6. Use direct patches for ordinary code, configuration, and documentation.
-   Use scripts for genuinely repetitive transformations, generated artifacts,
-   or a reusable installer the task needs. Do not build temporary installers,
-   migration frameworks, or backup/report machinery for a handful of edits.
-   Being outside the workspace requires the normal approval path, not a script
-   wrapper. Prefer one coherent patch phase; reread only for a conflict, an
-   unexpected external edit, or a concrete unresolved question.
-7. Run the exact focused DoD checks. After they pass, stop. Repeat only after
-   a relevant edit, failure, contradictory evidence, or explicit request for
-   independent verification. Never claim correctness solely to meet a budget.
-8. Record only useful continuity: a short open card and completion evidence
-   for medium/full work. Do not create a separate report for a small edit unless
-   requested or needed for a real handoff. Report facts, not invented savings.
+## Execution Budget
 
-Delegated briefs include exact ownership, numbered steps, an output shape, a
-discovery-call budget, and a stop condition. Existing role limits remain upper
-bounds, not targets to spend. The main thread should not repeat an agent's
-completed search or passing proof without new evidence. Keep Spark tasks narrow
-and summarize context instead of copying a large parent conversation.
+Reuse known paths and decisions. Make one bounded discovery pass: three calls
+is a checkpoint, not a reason to guess. Name the unresolved question before
+extending the search. Stop discovery once the edit location, contract, and
+focused check are known. Patch directly; avoid extra installers or reports.
 
-These are execution rules, not an automatic quota enforcement mechanism.
-Hooks remind agents; they do not measure token savings or replace judgment.
+## Tools
 
-## Tools and evidence
+- Use GitNexus for indexed structural and impact questions. A missing or stale
+  symbol is unknown impact; use a bounded source lookup to resolve the gap.
+  Prose and configuration edits without symbol changes need no graph query.
+- Use context-mode to process large searches, logs, and data. Use native tools
+  for file edits, and RTK for supported short shell observations.
+- Verify uncertain or version-sensitive API and CLI behavior with available
+  primary documentation tools, such as context7 or official documentation.
+- If a tool fails, report the exact tool and error, then use a permitted
+  alternative when it can answer the question. State any remaining evidence gap.
+  Tool availability does not justify adding an installer or changing permissions.
 
-- Use GitNexus for structural questions and impact in indexed repositories.
-  A missing or stale symbol is unknown impact, not proof of safety.
-- Use context-mode for processing, aggregation, broad searches, large files,
-  and logs. Use native file edits and native shell for mutations and short
-  fixed observations. RTK complements, rather than duplicates, context-mode.
-- Verify current API/library/CLI behavior through available primary-source
-  documentation tools (context7 when available, official web sources otherwise).
-  Resolve actual commands before writing a brief; do not invent runners.
-- Report tool failures with the exact tool and error. Label evidence gaps and
-  any degraded path. Continue independent authorized work where possible.
-- Context-mode owns its MCP registration and hooks. Never add duplicates.
-- Native Codex memory is primary. Change durable memory only when explicitly
-  requested. Do not restore Hindsight or silently promote workflow findings.
+## Task-Specific Guidance
 
-## Verification
+Read only the reference needed for the current workflow. Paths below are relative
+to this file, within this plugin installation.
 
-Name the exact test scope in the DoD, using project instructions, package
-scripts, build config, or CI. Use the narrowest check that proves the change.
-Full suites require a DoD that names them or a genuinely unknown impact map.
-Do not expand checks after the required proof passes without new evidence.
-
-Verify through the real path the user exercises. Mocks and source inspection
-are not proof of process lifetime, live app behavior, IPC, or global command
-resolution. For UI changes, inspect rendered output. If the runtime cannot be
-tested here, report `UNVERIFIED`, the blocker, and precisely what was checked.
-Recognize user-only hardware/auth dependencies early and supply exact steps
-when necessary. Do not ask the user to run checks that can be run locally.
-
-## Canonical ledgers
-
-`todo.md` contains open cards only:
-
-```markdown
-# Todo
-
-## [doing] <task title>
-- Assignee: main-thread
-- Attempts: 0/2
-- DoD: <observable result and exact verification scope>
-- Deps: none
-```
-
-Status is `[todo]`, `[doing]`, or `[blocked]`. A blocked card pairs with an
-entry in `.localdev/workflow/blockers.md`:
-
-```markdown
-## YYYY-MM-DD HH:MM - <summary>
-- Context: <task and current work>
-- Blocker: <decision not resolvable from available evidence>
-- What I need: <specific decision>
-- Files involved: <paths>
-```
-
-Stop only dependent work. Remove resolved blockers. Do not revive stale cards
-when the user's latest request changes the task.
-
-Handoffs in `.localdev/workflow/handoffs/<task>.md` have Status, Next, Open
-questions, and Files touched sections. On completion, absorb their durable
-value into the done entry and remove only the completed task's handoff.
-
-Remove completed cards and append to `.localdev/workflow/done.md`:
-
-```markdown
-## YYYY-MM-DD HH:MM - <task title>
-- Summary: <what changed and how verified; explicit runtime limits>
-- Links: <PR, issue, commit, or none>
-- Files: <key paths>
-- Attempts: <number>
-```
-
-`findings.md` is temporary shared evidence. Preserve useful findings in a
-handoff before cleaning up; never erase another active task's findings.
-Persistent project constraints belong in `docs/KNOWN_ISSUES.md`, with status,
-workaround, affected files, and reference. Do not commit or push unless asked.
-
-## Codex hooks
-
-- SessionStart: budgeted digest (at most 4000 characters), ordered recovery,
-  pending audit, blockers, all open cards plus Attempts/DoD, then handoff age.
-  Warn on handoffs older than seven days. No-op outside initialized projects.
-- PreCompact: snapshot doing/blocked cards per session. On compact/resume
-  within 24 hours, warn to inspect live agents before dispatching again.
-- Stop: advisory ledger audit of successful native patch/write/edit calls in
-  the available transcript, unfinished cards, and blocker inconsistency.
-  Uses Codex `systemMessage`, not Claude-only Stop additional-context fields.
-  Never blocks completion. Unknown transcript formats or shell-generated edits
-  are not claimed as covered. Pending findings are delivered at next startup.
-- UserPromptSubmit: short task-state reminder and pointer to this document.
-
-Hook scratch files are session-scoped to avoid consuming another session's
-snapshot. Hook installation preserves unrelated registrations and permissions.
-Reload the Codex conversation after installing updated roles and skills.
-
-## Quick side questions
-
-Use the `qq` skill for a concise, read-only side answer. Keep the main task
-active. Reuse an existing side agent only if delegation was explicitly asked
-for; otherwise answer in the main thread. Do not change the session model.
+- [Ledgers](skills/agentic-workflow/references/ledgers.md): creating or updating
+  cards, handoffs, blockers, findings, and completion entries. Working state
+  belongs in gitignored `.localdev/workflow/`; durable project constraints belong
+  in `docs/KNOWN_ISSUES.md`. Durable memory changes require an explicit request.
+- [Delegation](skills/agentic-workflow/references/delegation.md): when authorized
+  work benefits from subagents, including ownership, retries, and process lifetime.
+- [Model routing](MODEL_ROUTING.md): installed Codex role assignments and fallback
+  rules, when delegation is explicitly requested.
+- `/init-agentic`: initialize project working state when it is needed.
+- `/handoff`, `/blocker`, `/known-issue`: record the corresponding project state.
+- `/qq`: answer a concise, read-only side question while preserving the main task.
